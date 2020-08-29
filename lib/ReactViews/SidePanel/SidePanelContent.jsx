@@ -23,6 +23,9 @@ class SidePanelContent extends React.Component {
         item.isShown = item.name === sector;
       }
     });
+    // set isHotspots filtered to true to make back to all hotspots button visible
+
+    viewState.isHotspotsFiltered = true;
   };
   closeSectorInfo = () => {
     this.setState({ sector: null });
