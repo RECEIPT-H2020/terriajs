@@ -11,7 +11,7 @@ import FeedbackForm from "../Feedback/FeedbackForm.jsx";
 import MapColumn from "./MapColumn.jsx";
 import MapInteractionWindow from "./../Notification/MapInteractionWindow.jsx";
 import MapNavigation from "./../Map/MapNavigation.jsx";
-import MenuBar from "./../Map/MenuBar.jsx";
+import RCMenuBar from "./../Map/RCMenuBar.jsx";
 import ExperimentalFeatures from "./../Map/ExperimentalFeatures.jsx";
 import MobileHeader from "./../Mobile/MobileHeader.jsx";
 import Notification from "./../Notification/Notification.jsx";
@@ -322,13 +322,7 @@ const StandardUserInterface = createReactClass({
               })}
             >
               <Medium>
-                <MenuBar
-                  terria={terria}
-                  viewState={this.props.viewState}
-                  allBaseMaps={allBaseMaps}
-                  menuItems={customElements.menu}
-                  animationDuration={animationDuration}
-                />
+                <RCMenuBar terria={terria} viewState={this.props.viewState} />
                 <MapNavigation
                   terria={terria}
                   viewState={this.props.viewState}
