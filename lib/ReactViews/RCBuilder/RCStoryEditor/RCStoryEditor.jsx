@@ -2,6 +2,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import PropTypes from "prop-types";
 import { default as React, useEffect, useRef, useState } from "react";
 import Cartographic from "terriajs-cesium/Source/Core/Cartographic";
+import Color from "terriajs-cesium/Source/Core/Color";
 import knockout from "terriajs-cesium/Source/ThirdParty/knockout";
 import { updateStory } from "../../../../api/graphql/mutations";
 import { getStory } from "../../../../api/graphql/queries";
@@ -52,7 +53,7 @@ function RCStoryEditor(props) {
         if (isListening) {
           // Convert position to cartographic
           const point = Cartographic.fromCartesian(
-            viewState.terria.pickedFeatures.pickPosition
+            terria.pickedFeatures.pickPosition
           );
           setHotspotPoint({
             latitude: (point.latitude / Math.PI) * 180,
@@ -68,6 +69,30 @@ function RCStoryEditor(props) {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (hotspotPoint === null) {
+      return;
+    }
+    const { terria } = props.viewState;
+    const dataSource = terria.nowViewing.items
+      .find(item => item.name === "hotspots")._dataSource;
+    console.log(dataSource);
+    dataSource.load({
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          hotspotPoint.longitude,
+          hotspotPoint.latitude
+        ]
+      }
+    }, { 
+      markerSymbol: 'circle',
+      markerSize: 64,
+      markerColor: Color.fromRgba(0xEE7755FF)
+    });
+  }, [hotspotPoint]);
 
   const onTitleChanged = event => {
     setTitle(event.target.value);
@@ -120,7 +145,7 @@ function RCStoryEditor(props) {
     ? `${Number(hotspotPoint.latitude).toFixed(4)}, ${Number(
         hotspotPoint.longitude
       ).toFixed(4)}`
-    : "none set";
+   : "none set";
 
   return (
     <div className={Styles.RCStoryEditor}>
