@@ -1,6 +1,6 @@
 projects:
   receiptAPI:
-    schemaPath: lib/graphql/schema.json
+    schemaPath: lib/RCgraphql/RCschema.json
     includes:
       - api/graphql/**/*.js
     excludes:
